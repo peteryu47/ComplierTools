@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{dceff40f-d179-4999-b3a1-edf4c14c032b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\fa">
+      <UniqueIdentifier>{6d62efa7-b381-4f35-bc4a-f929ee8dab72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com">
+      <UniqueIdentifier>{9cbce8c6-f38a-4486-8a69-66853e03d13c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ll1">
+      <UniqueIdentifier>{d6daa0e7-9c65-49c8-b6b0-a414282ef0e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lr1">
+      <UniqueIdentifier>{a20d8c30-35af-4f9d-85ae-6989ea93408e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gm">
+      <UniqueIdentifier>{30d579e1-f033-4a19-95e4-5b64f32a2539}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\fa\dfa.cpp">
+      <Filter>src\fa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\fa\nfa.cpp">
+      <Filter>src\fa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\fa\fa_state.cpp">
+      <Filter>src\fa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gm\gm_lexer.cpp">
+      <Filter>src\gm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gm\gm_parser.cpp">
+      <Filter>src\gm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\fa\dfa.h">
+      <Filter>src\fa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\fa\nfa.h">
+      <Filter>src\fa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\com\utils.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\fa\fa_state.h">
+      <Filter>src\fa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\com\var.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gm\gm_lexer.h">
+      <Filter>src\gm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gm\gm_parser.h">
+      <Filter>src\gm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gm\gm_token.h">
+      <Filter>src\gm</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
