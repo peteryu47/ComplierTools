@@ -7,11 +7,12 @@ using namespace std;
 
 enum eGMTokenType
 {
-    kGMTokenTypeId,
-    kGMTokenTypeStr,
-    kGMTokenTypePercent,
-    kGMTokenTypeColon,
-    kGMTokenTypeVertical,
+    kGMTokenTypeId,         //id
+    kGMTokenTypeStr,        //str
+    kGMTokenTypePercent,    //%
+    kGMTokenTypeColon,      //:
+    kGMTokenTypeVertical,   //|
+    kGMTokenTypeSemicolon,  //;
     kGMTokenTypeEOF,
 };
 
