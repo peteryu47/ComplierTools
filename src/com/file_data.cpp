@@ -16,7 +16,7 @@ FileData::~FileData()
     CleanData();
 }
 
-void FileData::Load(string& filePath)
+void FileData::Load(const string& filePath)
 {
     CleanData();
 

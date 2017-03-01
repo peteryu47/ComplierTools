@@ -1,5 +1,5 @@
-#ifndef __UTILS_H__
-#define __UTILS_H__
+#ifndef __GM_TOKEN_H__
+#define __GM_TOKEN_H__
 
 #include <string>
 #include "com/var.h"

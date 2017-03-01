@@ -10,7 +10,7 @@ public:
     FileData();
     ~FileData();
 
-    void    Load(string& filePath);
+    void    Load(const string& filePath);
     char*   GetData() { return m_Data; }
     int     GetDataLength() { return m_DataLength; }
 

@@ -4,43 +4,40 @@
 #include "com/file_data.h"
 #include <stdio.h>
 
-GMLexer::GMLexer(string inputFile)
+GMLexer::GMLexer(const string& text)
 {
-    FileData fileData;
-    fileData.Load(inputFile);
-    m_Text = fileData.GetData();
-    m_CurChar = '\0';
+    m_Text = text;
     m_Index = 0;
 }
 
 GMToken GMLexer::GetNextToken()
 {
-    GetNextNonBlankChar();
+    char c = GetNextNonBlankChar();
 
-    if (IsAlpha(m_CurChar))
+    if (IsAlpha(c))
     {
         return ReadId();
     }
-    else if (m_CurChar == '%')
+    else if (c == '%')
     {
         ConsumeCurChar();
         return GMToken(kGMTokenTypePercent, Var());
     }
-    else if (m_CurChar == ':')
+    else if (c == ':')
     {
         ConsumeCurChar();
         return GMToken(kGMTokenTypeColon, Var());
     }
-    else if (m_CurChar == '|')
+    else if (c == '|')
     {
         ConsumeCurChar();
         return GMToken(kGMTokenTypeVertical, Var());
     }
-    else if (m_CurChar == '\'' || m_CurChar == '\"')
+    else if (c == '\'' || c == '\"')
     {
         return ReadStr();
     }
-    else if (m_CurChar == ';')
+    else if (c == ';')
     {
         ConsumeCurChar();
         return GMToken(kGMTokenTypeSemicolon, Var());
@@ -59,39 +56,41 @@ void GMLexer::ConsumeCurChar()
     ++m_Index;
 }
 
-void GMLexer::GetNextChar()
+char GMLexer::GetNextChar()
 {
     if (m_Index >= m_Text.length())
     {
-        m_CurChar = EOF;
+        return EOF;
     }
     else
     {
-        m_CurChar = m_Text[m_Index];
+        return m_Text[m_Index];
     }
 }
 
-void GMLexer::GetNextNonBlankChar()
+char GMLexer::GetNextNonBlankChar()
 {
-    GetNextChar();
+    char c = GetNextChar();
 
-    while (IsBlankChar(m_CurChar))
+    while (IsBlankChar(c))
     {
         ConsumeCurChar();
-        GetNextChar();
+        c = GetNextChar();
     }
+    return c;
 }
 
 GMToken GMLexer::ReadId()
 {
     string str;
     str.reserve(100);
+    char c = GetNextChar();
 
-    while (IsAlpha(m_CurChar) || IsUnderline(m_CurChar))
+    while (IsAlpha(c) || IsUnderline(c))
     {
-        str += m_CurChar;
+        str += c;
         ConsumeCurChar();
-        GetNextChar();
+        c = GetNextChar();
     }
     
     return GMToken(kGMTokenTypeId, Var(str));
@@ -100,17 +99,17 @@ GMToken GMLexer::ReadId()
 GMToken GMLexer::ReadStr()
 {
     string str;
-    char startChar = m_CurChar;
+    char startChar = GetNextChar();
     str.reserve(100);
 
     ConsumeCurChar();
-    GetNextChar();
+    char c = GetNextChar();
 
-    while (m_CurChar != startChar)
+    while (c != startChar)
     {
-        str += m_CurChar;
+        str += c;
         ConsumeCurChar();
-        GetNextChar();
+        c = GetNextChar();
     }
 
     ConsumeCurChar();

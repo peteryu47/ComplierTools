@@ -1,9 +1,14 @@
 #include "com/var.h"
 #include "gm/gm_lexer.h"
+#include "com/file_data.h"
 
 void main()
 {
-    GMLexer lexer("test.gm");
+    FileData fileData;
+    fileData.Load("test.gm");
+    string text = fileData.GetData();
+
+    GMLexer lexer(text);
 
     GMToken token = lexer.GetNextToken();
 

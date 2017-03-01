@@ -9,7 +9,7 @@ using namespace std;
 class GMLexer
 {
 public:
-    GMLexer(string inputFile);
+    GMLexer(const string& text);
     ~GMLexer(){}
 
     GMToken     GetNextToken();
@@ -17,8 +17,8 @@ public:
 
 private:
     void        ConsumeCurChar();
-    void        GetNextChar();
-    void        GetNextNonBlankChar();
+    char        GetNextChar();
+    char        GetNextNonBlankChar();
     bool        IsAlpha(char c) { return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')); }
     bool        IsDigit(char c) { return (c >= '0' && c <= '9'); }
     bool        IsUnderline(char c) { return (c == '_'); }
@@ -28,7 +28,6 @@ private:
 
 private:
     string      m_Text;
-    char        m_CurChar;
     size_t      m_Index;
 };
 
