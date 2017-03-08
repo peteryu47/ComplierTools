@@ -1,5 +1,7 @@
 #include "com/var.h"
 #include "gm/gm_lexer.h"
+#include "gm/gm_parser.h"
+#include "gm/gm_grammar.h"
 #include "com/file_data.h"
 
 void main()
@@ -8,12 +10,16 @@ void main()
     fileData.Load("test.gm");
     string text = fileData.GetData();
 
-    GMLexer lexer(text);
+    //GMLexer lexer(text);
+    //GMToken token = lexer.GetNextToken();
+    //while (token.GetType() != kGMTokenTypeEOF)
+    //{
+    //    token = lexer.GetNextToken();
+    //}
 
-    GMToken token = lexer.GetNextToken();
+    GMParser parser;
 
-    while (token.GetType() != kGMTokenTypeEOF)
-    {
-        token = lexer.GetNextToken();
-    }
+    GMGrammar* grammer = parser.Parse("test.gm");
+
+    grammer->Dump();
 }

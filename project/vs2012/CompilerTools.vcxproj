@@ -15,6 +15,7 @@
     <ClCompile Include="..\..\src\fa\dfa.cpp" />
     <ClCompile Include="..\..\src\fa\fa_state.cpp" />
     <ClCompile Include="..\..\src\fa\nfa.cpp" />
+    <ClCompile Include="..\..\src\gm\gm_grammar.cpp" />
     <ClCompile Include="..\..\src\gm\gm_lexer.cpp" />
     <ClCompile Include="..\..\src\gm\gm_parser.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
@@ -26,8 +27,11 @@
     <ClInclude Include="..\..\src\fa\dfa.h" />
     <ClInclude Include="..\..\src\fa\fa_state.h" />
     <ClInclude Include="..\..\src\fa\nfa.h" />
+    <ClInclude Include="..\..\src\gm\gm_grammar.h" />
     <ClInclude Include="..\..\src\gm\gm_lexer.h" />
+    <ClInclude Include="..\..\src\gm\gm_node.h" />
     <ClInclude Include="..\..\src\gm\gm_parser.h" />
+    <ClInclude Include="..\..\src\gm\gm_production.h" />
     <ClInclude Include="..\..\src\gm\gm_token.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

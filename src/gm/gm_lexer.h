@@ -14,6 +14,7 @@ public:
 
     GMToken     GetNextToken();
     GMToken     ReadNextToken();
+    int         CurIndex() { return m_Index; }
 
 private:
     void        ConsumeCurChar();
