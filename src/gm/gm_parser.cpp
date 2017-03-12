@@ -19,10 +19,10 @@ GMParser::~GMParser()
 GMGrammar* GMParser::Parse(const string& filePath)
 {
     SAFE_DEL(m_Lexer);
-
+    
     FileData fileData;
     fileData.Load(filePath);
-
+    
     m_Text = fileData.GetData();
     m_Lexer = new GMLexer(m_Text);
     m_IsError = false;
@@ -99,7 +99,7 @@ GMNodeNT* GMParser::StateProductionName(GMGrammar* grammar)
 {
     if (m_CurToken.GetType() == kGMTokenTypeId)
     {
-        GMNodeNT* node = grammar->GetGMNodeNT(m_CurToken.GetValue().GetStringValue());
+        GMNodeNT* node = grammar->CreateGMNodeNT(m_CurToken.GetValue().GetStringValue());
         GetNextToken();
         return node;
     }
@@ -117,11 +117,11 @@ void GMParser::StateProductionContext(GMGrammar* grammar, GMProduction* producti
     {
         if (m_CurToken.GetType() == kGMTokenTypeId)
         {
-            node = grammar->GetGMNodeNT(m_CurToken.GetValue().GetStringValue());
+            node = grammar->CreateGMNodeNT(m_CurToken.GetValue().GetStringValue());
         }
         else
         {
-            node = grammar->GetGMNodeT(m_CurToken.GetValue().GetStringValue());
+            node = grammar->CreateGMNodeT(m_CurToken.GetValue().GetStringValue());
         }
 
         if (node == NULL)

@@ -12,10 +12,18 @@ public:
     GMGrammar();
     ~GMGrammar();
 
-    GMNodeT*        GetGMNodeT(const string& name);
-    GMNodeNT*       GetGMNodeNT(const string& name);
-    GMProduction*   CreateProduction(GMNodeNT* nameNode);
+    GMNodeT*        CreateGMNodeT(const string& name);
+    GMNodeNT*       CreateGMNodeNT(const string& name);
+    GMProduction*   CreateProduction(GMNodeNT* nameNode, int desirePos = -1);
     void            Dump();
+
+    const vector<GMNodeT*>&         GetNodeTs() { return m_NodeTs; }
+    const vector<GMNodeNT*>&        GetNodeNTs() { return m_NodeNTs; }
+    GMNodeT*                        GetNodeTEpsilon() { return m_NodeTs[0]; };
+    GMNodeT*                        GetNodeTEOF() { return m_NodeTs[1]; };
+    const vector<GMProduction*>&    GetProductions() { return m_Productions; }
+
+    void                            DestoryProduction(GMProduction* production);
 
 private:
     vector<GMNodeT*>        m_NodeTs;

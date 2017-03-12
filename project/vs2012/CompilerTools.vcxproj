@@ -18,6 +18,7 @@
     <ClCompile Include="..\..\src\gm\gm_grammar.cpp" />
     <ClCompile Include="..\..\src\gm\gm_lexer.cpp" />
     <ClCompile Include="..\..\src\gm\gm_parser.cpp" />
+    <ClCompile Include="..\..\src\ll1\ll1.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +34,7 @@
     <ClInclude Include="..\..\src\gm\gm_parser.h" />
     <ClInclude Include="..\..\src\gm\gm_production.h" />
     <ClInclude Include="..\..\src\gm\gm_token.h" />
+    <ClInclude Include="..\..\src\ll1\ll1.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A4C0BA4A-8C94-479E-8131-39FA25B3C069}</ProjectGuid>

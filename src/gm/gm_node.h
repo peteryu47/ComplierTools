@@ -13,32 +13,32 @@ enum eGMNodeType
 class GMNodeBase
 {
 protected:
-    GMNodeBase(const string& name, eGMNodeType type) : m_Name(name), m_Type(type) {};
+    GMNodeBase(int no, const string& name, eGMNodeType type) : m_No(no), m_Name(name), m_Type(type) {};
     virtual ~GMNodeBase(){}
 
 public:
-    const string&   GetName() { return m_Name; }
-    eGMNodeType     GetType() { return m_Type; }
+    const string&   GetName() const { return m_Name; }
+    eGMNodeType     GetType() const { return m_Type; }
+
+    int             GetNo() { return m_No; }
 
 protected:
     string          m_Name;
     eGMNodeType     m_Type;
+    int             m_No;
 };
 
 class GMNodeT : public GMNodeBase
 {
 public:
-    GMNodeT(int no, const string& name) : GMNodeBase(name, kGMNodeTypeT), m_No(no) {};
+    GMNodeT(int no, const string& name) : GMNodeBase(no, name, kGMNodeTypeT) {};
     virtual ~GMNodeT(){}
-
-private:
-    int     m_No;
 };
 
 class GMNodeNT : public GMNodeBase
 {
 public:
-    GMNodeNT(const string& name) : GMNodeBase(name, kGMNodeTypeNT) {};
+    GMNodeNT(int no, const string& name) : GMNodeBase(no, name, kGMNodeTypeNT) {};
     virtual ~GMNodeNT(){}
 };
 

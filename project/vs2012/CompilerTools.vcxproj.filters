@@ -45,6 +45,9 @@
     <ClCompile Include="..\..\src\gm\gm_grammar.cpp">
       <Filter>src\gm</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ll1\ll1.cpp">
+      <Filter>src\ll1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\fa\dfa.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\gm\gm_production.h">
       <Filter>src\gm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ll1\ll1.h">
+      <Filter>src\ll1</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
