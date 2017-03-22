@@ -282,12 +282,19 @@ bool LL1::SetContains(set<GMNodeBase*>& src, GMNodeBase* node)
 
 void LL1::DumpFirstSet()
 {
+    cout << "**********DumpFirstSet***********" << endl;
     for (map<GMNodeBase*, set<GMNodeBase*>>::iterator itr = m_FirstSetMap.begin(); itr != m_FirstSetMap.end(); ++itr)
     {
         cout << itr->first->GetName() << " : [";
+        int count = 0;
         for (set<GMNodeBase*>::iterator itr1 = itr->second.begin(); itr1 != itr->second.end(); ++itr1)
         {
-            cout << (*itr1)->GetName() << ", ";
+            cout << (*itr1)->GetName();
+            if (count != itr->second.size() - 1)
+            {
+                cout << ", ";
+            }
+            ++count;
         }
         cout << "]" << endl;
     }
