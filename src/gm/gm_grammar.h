@@ -15,7 +15,7 @@ public:
     GMNodeT*        CreateGMNodeT(const string& name);
     GMNodeNT*       CreateGMNodeNT(const string& name);
     GMProduction*   CreateProduction(GMNodeNT* nameNode, int desirePos = -1);
-    void            Dump();
+    void            Dump(const string& title);
 
     const vector<GMNodeT*>&         GetNodeTs() { return m_NodeTs; }
     const vector<GMNodeNT*>&        GetNodeNTs() { return m_NodeNTs; }

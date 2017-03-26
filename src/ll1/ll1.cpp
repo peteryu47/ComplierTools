@@ -1,6 +1,7 @@
 #include "ll1.h"
 
 #include <iostream>
+#include "com/set_utils.h"
 
 void LL1::EliminateLeftRecursion()
 {
@@ -75,7 +76,17 @@ void LL1::EliminateIndirectRecursion()
 
 void LL1::EliminateCommonPrefix()
 {
+    const vector<GMNodeNT*> ntNodes = m_Grammer->GetNodeNTs();
+    vector<GMProduction*> productions;
 
+    for (int i = 0; i < ntNodes.size(); ++i)
+    {
+        GetProductionWithNameNode(ntNodes[i], productions);
+        for (int j = 0; j < productions.size(); ++j)
+        {
+            
+        }
+    }
 }
 
 void LL1::CalFirstSet()
@@ -110,22 +121,23 @@ void LL1::CalFirstSet()
             nodes = productions[i]->GetNodes();
             nameNode = const_cast<GMNodeBase*>(productions[i]->GetNameNode());
 
-            SetAdd(m_FirstSetMap[nameNode], m_FirstSetMap[nodes[0]]);
-            SetRemove(m_FirstSetMap[nameNode], m_Grammer->GetNodeTEpsilon());
+            SetAdd<GMNodeBase*>(m_FirstSetMap[nameNode], m_FirstSetMap[nodes[0]]);
+            SetRemove<GMNodeBase*>(m_FirstSetMap[nameNode], m_Grammer->GetNodeTEpsilon());
 
             flag = true;
             for (int j = 0; j < nodes.size(); ++j)
             {
-                if (!SetContains(m_FirstSetMap[nodes[j]], m_Grammer->GetNodeTEpsilon()))
+                if (!SetContains<GMNodeBase*>(m_FirstSetMap[nodes[j]], m_Grammer->GetNodeTEpsilon()))
                 {
                     flag = false;
                     break;
                 }
             }
 
+            // all node has epsilon
             if (flag == true)
             {
-                SetAdd(m_FirstSetMap[nameNode], m_Grammer->GetNodeTEpsilon());
+                SetAdd<GMNodeBase*>(m_FirstSetMap[nameNode], m_Grammer->GetNodeTEpsilon());
             }
         }
 
@@ -149,9 +161,174 @@ void LL1::CalFirstSet()
     }
 }
 
+void LL1::DumpFirstSet()
+{
+    cout << "**********DumpFirstSet***********" << endl;
+    for (map<GMNodeBase*, set<GMNodeBase*>>::iterator itr = m_FirstSetMap.begin(); itr != m_FirstSetMap.end(); ++itr)
+    {
+        cout << itr->first->GetName() << " : [";
+        int count = 0;
+        for (set<GMNodeBase*>::iterator itr1 = itr->second.begin(); itr1 != itr->second.end(); ++itr1)
+        {
+            cout << (*itr1)->GetName();
+            if (count != itr->second.size() - 1)
+            {
+                cout << ", ";
+            }
+            ++count;
+        }
+        cout << "]" << endl;
+    }
+}
+
 void LL1::CalFellowSet()
 {
+    const vector<GMNodeNT*> ntNodes = m_Grammer->GetNodeNTs();
+    const vector<GMNodeT*> tNodes = m_Grammer->GetNodeTs();
+    const vector<GMProduction*> productions = m_Grammer->GetProductions();
+    vector<GMNodeBase*> nodes;
+    int curCount = 0;
+    int tempCount = 0;
+    GMNodeBase* nameNode;
+    bool flag = false;
+    GMNodeBase* nodeBeta;
 
+    // init
+    for (int i = 0; i < ntNodes.size(); ++i)
+    {
+        m_FellowSetMap[ntNodes[i]] = set<GMNodeBase*>();
+        ++curCount;
+    }
+
+    for (int i = 0; i < tNodes.size(); ++i)
+    {
+        m_FellowSetMap[tNodes[i]] = set<GMNodeBase*>();
+        ++curCount;
+    }
+
+    while (true)
+    {
+        for (int i = 0; i < productions.size(); ++i)
+        {
+            nodes = productions[i]->GetNodes();
+            nameNode = const_cast<GMNodeBase*>(productions[i]->GetNameNode());
+            set<GMNodeBase*> trailer = m_FellowSetMap[nameNode];
+
+            for (int j = nodes.size() - 1; j >= 0; --j)
+            {
+                nodeBeta = nodes[j];
+                if (nodeBeta->GetType() == kGMNodeTypeNT)
+                {
+                    SetAdd(m_FellowSetMap[nodeBeta], trailer);
+                    if (SetContains<GMNodeBase*>(m_FirstSetMap[nodeBeta], m_Grammer->GetNodeTEpsilon()))
+                    {
+                        SetAdd(trailer, m_FirstSetMap[nodeBeta]);
+                        SetRemove<GMNodeBase*>(trailer, m_Grammer->GetNodeTEpsilon());
+                    }
+                    else
+                    {
+                        trailer = m_FirstSetMap[nodeBeta];
+                    }
+                }
+                else
+                {
+                    trailer = m_FirstSetMap[nodeBeta];
+                }
+            }
+        }
+
+        tempCount = 0;
+        for (map<GMNodeBase*, set<GMNodeBase*>>::iterator itr = m_FellowSetMap.begin(); itr != m_FellowSetMap.end(); ++itr)
+        {
+            for (set<GMNodeBase*>::iterator itr1 = itr->second.begin(); itr1 != itr->second.end(); ++itr1)
+            {
+                ++tempCount;
+            }
+        }
+
+        if (curCount == tempCount)
+        {
+            break;
+        }
+        else
+        {
+            curCount = tempCount;
+        }
+    }
+}
+
+void LL1::DumpFellowSet()
+{
+    cout << "**********DumpFellowSet***********" << endl;
+    for (map<GMNodeBase*, set<GMNodeBase*>>::iterator itr = m_FellowSetMap.begin(); itr != m_FellowSetMap.end(); ++itr)
+    {
+        cout << itr->first->GetName() << " : [";
+        int count = 0;
+        for (set<GMNodeBase*>::iterator itr1 = itr->second.begin(); itr1 != itr->second.end(); ++itr1)
+        {
+            cout << (*itr1)->GetName();
+            if (count != itr->second.size() - 1)
+            {
+                cout << ", ";
+            }
+            ++count;
+        }
+        cout << "]" << endl;
+    }
+}
+
+void LL1::CalFirstPlusSet()
+{
+    const vector<GMProduction*> productions = m_Grammer->GetProductions();
+    set<GMNodeBase*> firstSet;
+
+    for (int i = 0; i < productions.size(); ++i)
+    {
+        m_FirstlusSetMap[productions[i]] = set<GMNodeBase*>();
+    }
+
+    for (int i = 0; i < productions.size(); ++i)
+    {
+        GetFirstSetOfNodes(productions[i]->GetNodes(), firstSet);
+        if (!SetContains<GMNodeBase*>(firstSet, m_Grammer->GetNodeTEpsilon()))
+        {
+            m_FirstlusSetMap[productions[i]] = firstSet;
+        }
+        else
+        {
+            SetAdd(firstSet, m_FellowSetMap[const_cast<GMNodeBase*>(productions[i]->GetNameNode())]);
+            m_FirstlusSetMap[productions[i]] = firstSet;
+        }
+    }
+}
+
+void LL1::DumpFirstPlusSet()
+{
+    const vector<GMProduction*> productions = m_Grammer->GetProductions();
+    cout << "**********DumpFirstPlusSet***********" << endl;
+    for (int i = 0; i < productions.size(); ++i)
+    {
+        GMProduction *production = productions[i];
+        const vector<GMNodeBase*>& nodes = production->GetNodes();
+        cout << production->GetNameNode()->GetName() << " : ";
+        for (int j = 0; j < nodes.size(); ++j)
+        {
+            cout << nodes[j]->GetName() << " ";
+        }
+        cout << "\t\t: [";
+        int count = 0;
+        const set<GMNodeBase*>& nodeSet = m_FirstlusSetMap[production];
+        for (set<GMNodeBase*>::iterator itr = nodeSet.begin(); itr != nodeSet.end(); ++itr)
+        {
+            cout << (*itr)->GetName();
+            if (count != nodeSet.size() - 1)
+            {
+                cout << ", ";
+            }
+            ++count;
+        }
+        cout << "]" << endl;
+    }
 }
 
 void LL1::GetLeftRecursionProductions(GMNodeNT *nameNode, vector<GMProduction*>& leftRProductions, vector<GMProduction*>& nonLeftRProductions)
@@ -179,8 +356,8 @@ void LL1::GetLeftRecursionProductions(GMNodeNT *nameNode, vector<GMProduction*>&
 
 void LL1::GetProductionWithNameNodeAndStartNode(GMNodeNT* nameNode, GMNodeNT* startNode, vector<GMProduction*>& result)
 {
-    const vector<GMProduction*>& productions = m_Grammer->GetProductions();
     result.clear();
+    const vector<GMProduction*>& productions = m_Grammer->GetProductions();
 
     for (int i = 0; i < productions.size(); ++i)
     {
@@ -198,8 +375,8 @@ void LL1::GetProductionWithNameNodeAndStartNode(GMNodeNT* nameNode, GMNodeNT* st
 
 void LL1::GetProductionWithNameNode(GMNodeNT* nameNode, vector<GMProduction*>& result)
 {
-    const vector<GMProduction*>& productions = m_Grammer->GetProductions();
     result.clear();
+    const vector<GMProduction*>& productions = m_Grammer->GetProductions();
 
     for (int i = 0; i < productions.size(); ++i)
     {
@@ -244,63 +421,43 @@ void LL1::ReplaceProductionFirstNode(GMNodeNT* nameNode, GMNodeNT* startNode)
     }
 }
 
-void LL1::SetAdd(set<GMNodeBase*>& src, set<GMNodeBase*>& add)
+void LL1::GetFirstSetOfNodes(const vector<GMNodeBase*>& nodes, set<GMNodeBase*>& result)
 {
-    for (set<GMNodeBase*>::iterator itr = add.begin(); itr != add.end(); ++itr)
+    result.clear();
+
+    for (int i = 0; i < nodes.size(); ++i)
     {
-        if (src.find(*itr) == src.end())
+        if (nodes[i]->GetType() == kGMNodeTypeT)
         {
-            src.insert(*itr);
+            SetAdd(result, m_FirstSetMap[nodes[i]]);
+            break;
+        }
+        else
+        {
+            SetAdd(result, m_FirstSetMap[nodes[i]]);
         }
     }
-}
 
-void LL1::SetAdd(set<GMNodeBase*>& src, GMNodeBase* add)
-{
-    if (src.find(add) == src.end())
+    bool isAllHasEpsilon = true;
+    for (int i = 0; i < nodes.size(); ++i)
     {
-        src.insert(add);
-    }
-}
-
-void LL1::SetRemove(set<GMNodeBase*>& src, GMNodeBase* node)
-{
-    for (set<GMNodeBase*>::iterator itr = src.begin(); itr != src.end(); ++itr)
-    {
-        if (*itr == node)
+        if (nodes[i]->GetType() == kGMNodeTypeT)
         {
-            src.erase(itr);
-            return;
+            isAllHasEpsilon = false;
+            break;
         }
-    }
-}
-
-bool LL1::SetContains(set<GMNodeBase*>& src, GMNodeBase* node)
-{
-    return (src.find(node) != src.end());
-}
-
-void LL1::DumpFirstSet()
-{
-    cout << "**********DumpFirstSet***********" << endl;
-    for (map<GMNodeBase*, set<GMNodeBase*>>::iterator itr = m_FirstSetMap.begin(); itr != m_FirstSetMap.end(); ++itr)
-    {
-        cout << itr->first->GetName() << " : [";
-        int count = 0;
-        for (set<GMNodeBase*>::iterator itr1 = itr->second.begin(); itr1 != itr->second.end(); ++itr1)
+        else
         {
-            cout << (*itr1)->GetName();
-            if (count != itr->second.size() - 1)
+            if (!SetContains<GMNodeBase*>(m_FirstSetMap[nodes[i]], m_Grammer->GetNodeTEpsilon()))
             {
-                cout << ", ";
+                isAllHasEpsilon = false;
+                break;
             }
-            ++count;
         }
-        cout << "]" << endl;
     }
-}
 
-void LL1::DumpFellowSet()
-{
-
+    if (!isAllHasEpsilon)
+    {
+        SetRemove<GMNodeBase*>(result, m_Grammer->GetNodeTEpsilon());
+    }
 }

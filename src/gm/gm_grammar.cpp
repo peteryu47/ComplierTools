@@ -79,9 +79,9 @@ GMProduction* GMGrammar::CreateProduction(GMNodeNT* nameNode, int desirePos)
     }
 }
 
-void GMGrammar::Dump()
+void GMGrammar::Dump(const string& title)
 {
-    cout << "******************************" << endl;
+    cout << "***************" << title << "**************" << endl;
     for (int i = 0; i < m_Productions.size(); ++i)
     {
         //const GMNodeNT 

@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\com\file_data.h" />
+    <ClInclude Include="..\..\src\com\set_utils.h" />
     <ClInclude Include="..\..\src\com\utils.h" />
     <ClInclude Include="..\..\src\com\var.h" />
     <ClInclude Include="..\..\src\fa\dfa.h" />

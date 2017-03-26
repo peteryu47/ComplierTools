@@ -22,21 +22,27 @@ void main()
     //}
 
     GMParser* parser = new GMParser();
-    GMGrammar* grammer = parser->Parse("test.gm");
+    GMGrammar* grammer = parser->Parse("test3.gm");
     LL1* ll1 = new LL1(grammer);
-    grammer->Dump();
+    grammer->Dump("Init");
 
     ll1->EliminateLeftRecursion();
-    grammer->Dump();
+    grammer->Dump("EliminateLeftRecursion");
 
     ll1->EliminateIndirectRecursion();
-    grammer->Dump();
+    grammer->Dump("EliminateIndirectRecursion");
 
     ll1->EliminateLeftRecursion();
-    grammer->Dump();
+    grammer->Dump("EliminateLeftRecursion");
 
     ll1->CalFirstSet();
     ll1->DumpFirstSet();
+
+    ll1->CalFellowSet();
+    ll1->DumpFellowSet();
+
+    ll1->CalFirstPlusSet();
+    ll1->DumpFirstPlusSet();
 
     delete grammer;
     delete parser;

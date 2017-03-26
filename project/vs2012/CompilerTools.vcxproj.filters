@@ -89,5 +89,8 @@
     <ClInclude Include="..\..\src\ll1\ll1.h">
       <Filter>src\ll1</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\com\set_utils.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

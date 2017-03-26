@@ -19,24 +19,24 @@ public:
     void            EliminateIndirectRecursion();
     void            EliminateCommonPrefix();
     void            CalFirstSet();
-    void            CalFellowSet();
     void            DumpFirstSet();
+    void            CalFellowSet();
     void            DumpFellowSet();
+    void            CalFirstPlusSet();
+    void            DumpFirstPlusSet();
 
 private:
     void            GetLeftRecursionProductions(GMNodeNT *nameNode, vector<GMProduction*>& leftRProductions, vector<GMProduction*>& nonLeftRProductions);
     void            GetProductionWithNameNodeAndStartNode(GMNodeNT* nameNode, GMNodeNT* startNode, vector<GMProduction*>& result);
     void            GetProductionWithNameNode(GMNodeNT* nameNode, vector<GMProduction*>& result);
     void            ReplaceProductionFirstNode(GMNodeNT* nameNode, GMNodeNT* startNode);
-    void            SetAdd(set<GMNodeBase*>& src, set<GMNodeBase*>& add);
-    void            SetAdd(set<GMNodeBase*>& src, GMNodeBase* add);
-    void            SetRemove(set<GMNodeBase*>& src, GMNodeBase* node);
-    bool            SetContains(set<GMNodeBase*>& src, GMNodeBase* node);
+    void            GetFirstSetOfNodes(const vector<GMNodeBase*>& nodes, set<GMNodeBase*>& result);
 
 private:
-    GMGrammar*      m_Grammer;
-    map<GMNodeBase*, set<GMNodeBase*>>   m_FirstSetMap;
-    map<GMNodeBase*, set<GMNodeBase*>>   m_FellowSetMap;
+    GMGrammar*                              m_Grammer;
+    map<GMNodeBase*, set<GMNodeBase*>>      m_FirstSetMap;
+    map<GMNodeBase*, set<GMNodeBase*>>      m_FellowSetMap;
+    map<GMProduction*, set<GMNodeBase*>>    m_FirstlusSetMap;
 };
 
 #endif
